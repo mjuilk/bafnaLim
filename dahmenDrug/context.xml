@@ -1,0 +1,83 @@
+<?xml version ="1.0" encoding="utf-8"?>
+
+<sheet>
+	<table>
+		<title>Operation and Purpose</title>
+		<operation>
+			
+		</operation>
+		<purpose>
+			
+		</purpose>
+	</table>
+	<table>
+		<title>Stammdaten und Versuchseintritt</title>
+		<TVAKurzbezeichnung>
+			
+		</TVAKurzbezeichnung>
+		<TVANr>
+			
+		</TVANr>
+		<experimentor>
+			
+		</experimentor>
+		<date>
+			
+		</date>
+		<pyratID>
+			
+		</pyratID>
+		<entryNr>
+			
+		</entryNr>
+		<expID>
+			
+		</expID>
+		<species>
+			
+		</species>
+		<strain>
+			
+		</strain>
+		<sex>
+			
+		</sex>
+		<supplier>
+			
+		</supplier>
+		<dob>
+			
+		</dob>
+		<ageW>
+			
+		</ageW>
+		<ageM>
+			
+		</ageM>
+		<bw>
+			
+		</bw>
+	</table>
+	
+	<table>
+		<title>Pre-operation</title>
+		<condition>
+
+		</condition>
+		<totalScore>
+
+		</totalScore>
+		<General>
+			
+		</General>
+		<Score1>
+			
+		</Score1>
+		<Activity>
+			
+		</Activity>
+		<Score2>
+			
+		</Score2>
+	</table>
+</sheet>

@@ -1,0 +1,66 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;400&display=swap');
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  margin-bottom: 2px;
+  /* table-layout: fixed; */
+  width: 100%;
+}
+
+.main {
+  width: auto;
+  margin-left: 0px;
+  margin-right: auto;
+}
+
+#main_2 {
+  margin-top: 8px;
+  width: 100%;
+}
+
+#main_3 {
+  margin-top: 12px;
+  width: 50%;
+}
+
+#main_4 {
+  margin-top: 12px;
+  width: 75%;
+}
+
+#main_5 {
+  margin-top: 12px;
+  width: 75%;
+}
+
+#main_6 {
+  margin-top: 12px;
+  width: 100%;
+}
+
+#signatures {
+  width: 50%;
+  text-align: center;
+  ;
+}
+
+.oppositeEnds {
+  display: flex;
+  justify-content: space-between;
+}
+
+
+td {
+  border: 1px solid;
+  border-spacing:0
+  padding: 0rem;
+  text-align: center;
+  font-size: 16px;
+  word-wrap: break-word;
+  
+}
+
+th {
+  font-weight: bold;
+}

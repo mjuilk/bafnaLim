@@ -21,7 +21,7 @@ def browseFile():
 
 def convertFile():
     filePath = fileEntry.get()
-    subprocess.call(["python", "animalTrackingExtractPDF.py", filePath])
+    subprocess.call(["python", "animalTrackingExtractPDF.py", "-f", filePath])
 
 # Pack a big frame so, it behaves like the window background
 frame1 = ttk.Frame(root)

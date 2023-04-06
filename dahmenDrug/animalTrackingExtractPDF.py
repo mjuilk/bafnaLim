@@ -2,6 +2,7 @@
 Created on Tue Mar 21 15:20:43 2023
 @author: M03593
 """
+import argparse
 from tabula.io import read_pdf
 import os
 import re
@@ -12,28 +13,13 @@ import openpyxl as op
 from openpyxl.styles import Font,PatternFill,Border,Side
 
 def dataReadPreProc(filePath):
-    dfs = read_pdf(filePath)
+    dfs = read_pdf(filePath, guess=False, pages = 'all',stream=True , encoding="latin", columns = [30,87,125,130,385,420,550])
     dff = pd.DataFrame()
 
 #To append dataframes from multiple pages
     for j in range(0,len(dfs)):
         cdf = pd.concat([dff,dfs[j]],ignore_index=True,join='outer')
         dff = cdf
-
-#Dropping irrelevant rows
-    cdf.columns = [m+1 for m in range(len(cdf.columns))]
-    cdf.fillna('',inplace=True)
-    count = 0
-    for i in cdf[5]:
-        count+=1
-        if i=='|Projektlei':
-            break
-        
-    for i in range(len(list(cdf[2]))):
-        if not re.findall("\ATie", cdf[2][i]) and not re.findall("\AProj", cdf[2][i]) and not re.findall("\AID", cdf[2][i]) \
-            and not re.findall("\A20", cdf[2][i]) and not re.findall("\ADat", cdf[2][i]) and not re.findall("\AUnt", cdf[2][i]) \
-            and not i==count-1 and not cdf[2][i]=='':
-            cdf.drop(i,inplace=True)
 
 #Dropping irrelevant rows
     cdf.columns = [m+1 for m in range(len(cdf.columns))]
@@ -234,5 +220,8 @@ def main(filePath):
     print(time.time()-stime)
     
 if __name__=="__main__":
-   main()
+   parser = argparse.ArgumentParser()
+   parser.add_argument("-f", '--file', required = True, help = "the name of the file you want to convert")
+   args = parser.parse_args()
+   main(args.file)
    

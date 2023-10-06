@@ -1,12 +1,6 @@
 """
 Created on Tue Mar 21 15:20:43 2023
 @author: M03593
-
---
-#Changes made by Jon on Thu Sep 28 2023
-- more intuitive variables names instead of cdf/ddf/edf, etc.
-- standardised to snakecase because there were mixed cases in the script
-
 """
 import argparse
 from tabula.io import read_pdf
@@ -17,50 +11,50 @@ import numpy as np
 import time
 import openpyxl as op
 from openpyxl.styles import Font,PatternFill,Border,Side
-#from copy import copy - this package is never used?
+from copy import copy
 
-def data_read_preproc(file_in):
-    dfs_from_pdf = read_pdf(file_in, guess=False, pages = 'all',stream=True , encoding="latin", columns = [30,87,125,130,385,420,550])
+def dataReadPreProc(filePath):
+    dfs = read_pdf(filePath, guess=False, pages = 'all',stream=True , encoding="latin", columns = [30,87,125,130,385,420,550])
     dff = pd.DataFrame()
 
 #To append dataframes from multiple pages
-    for i in range(0,len(dfs_from_pdf)):
-        concat_df = pd.concat([dff, dfs_from_pdf[i]], ignore_index=True, join='outer')
-        dff = concat_df #dont understand the purpose of dff here, it's never used in future lines
+    for j in range(0,len(dfs)):
+        cdf = pd.concat([dff,dfs[j]],ignore_index=True,join='outer')
+        dff = cdf
 
 #Dropping irrelevant rows
-    concat_df.columns = [m+1 for m in range(len(concat_df.columns))]
-    concat_df.fillna('',inplace=True)
+    cdf.columns = [m+1 for m in range(len(cdf.columns))]
+    cdf.fillna('',inplace=True)
     count = 0
-    for i in concat_df[5]:
+    for i in cdf[5]:
         count+=1
         if i=='|Projektlei':
             break
         
-    for i in range(len(list(concat_df[2]))):
-        if not re.findall("\ATie", concat_df[2][i]) and not re.findall("\AProj", concat_df[2][i]) and not re.findall("\AID", concat_df[2][i]) \
-            and not re.findall("\A20", concat_df[2][i]) and not re.findall("\ADat", concat_df[2][i]) and not re.findall("\AUnt", concat_df[2][i]) \
-            and not i==count-1 and not concat_df[2][i]=='':
-            concat_df.drop(i,inplace=True)
+    for i in range(len(list(cdf[2]))):
+        if not re.findall("\ATie", cdf[2][i]) and not re.findall("\AProj", cdf[2][i]) and not re.findall("\AID", cdf[2][i]) \
+            and not re.findall("\A20", cdf[2][i]) and not re.findall("\ADat", cdf[2][i]) and not re.findall("\AUnt", cdf[2][i]) \
+            and not i==count-1 and not cdf[2][i]=='':
+            cdf.drop(i,inplace=True)
 
 #Resetting the rows and column names
 #Data Cleaning
-    concat_df.reset_index(drop=True,inplace=True)
-    concat_df.drop([1,4,8],axis=1,inplace=True)
-    concat_df.columns = [m+1 for m in range(len(concat_df.columns))]
-    concat_df.replace('\?','-',regex=True,inplace=True)
+    cdf.reset_index(drop=True,inplace=True)
+    cdf.drop([1,4,8],axis=1,inplace=True)
+    cdf.columns = [m+1 for m in range(len(cdf.columns))]
+    cdf.replace('\?','-',regex=True,inplace=True)
     
     #Segmenting the dataframe as per experiments
     K = []
     t = 0
-    exp = concat_df.iloc[:5,:]
-    for i in range(len(list(concat_df[3]))):
+    exp = cdf.iloc[:5,:]
+    for i in range(len(list(cdf[3]))):
         edf = pd.DataFrame()
-        if re.findall(r"\bEnde des Exp",concat_df[3][i]):
-            edf = concat_df.iloc[t:i+1,:]
+        if re.findall(r"\bEnde des Exp",cdf[3][i]):
+            edf = cdf.iloc[t:i+1,:]
             K.append(edf)
             t = i+2
-    edf = concat_df.iloc[t:i+1,:]
+    edf = cdf.iloc[t:i+1,:]
     K.append(edf)
 
     M = []
@@ -69,7 +63,7 @@ def data_read_preproc(file_in):
         M.append(edf)
     return M
 
-def data_proc_format(content):
+def dataProcFormat(content):
 #Time, bpm
     E = []
     count = 1
@@ -141,7 +135,7 @@ def data_proc_format(content):
                 temp.append('x')
         E.append(np.array([tim,bpm, ref, vap, temp, warm],dtype=object))
     
-        Df = pd.read_excel(r'..\OP-record-NEW template.xlsx',header=None)
+        Df = pd.read_excel(r'C:\Users\M03593\OP-record-NEW template.xlsx',header=None)
         Df.fillna('',inplace=True) 
         
         Df.iloc[8,2]=str(data.iloc[0,2])+str(data.iloc[0,3])+str(data.iloc[0,4])
@@ -177,8 +171,9 @@ def data_proc_format(content):
             if re.findall(r"Gewicht:\B",data[5][i]):
                 Df.iloc[15,2] = str(data[5][i])[9:len(str(data[5][i]))]
                 break   
-        Df.to_excel(str(Df.iloc[4,2])+'_'+f'{str(count)}.xlsx',encoding = 'latin',index=False,header=None)
+        Df.to_excel(r'C:\\Users\\M03593\\Reports\\'+str(Df.iloc[4,2])+'_'+f'{str(count)}.xlsx',index=False,header=None)
         count+=1
+    
         
 def formatting(path):
     for file_name in os.listdir(path):
@@ -266,8 +261,7 @@ def formatting(path):
                 # Set the calculated column width
                 ws.column_dimensions[column_letter].width = adjusted_width
 
-            wb.save(path)
-
+            wb.save(path+file_name)
 '''if __name__=='__main__':
     path = r'C:/Users/M03593/Downloads/ilovepdf_split-range/'
     for file_name in os.listdir(path):
@@ -276,15 +270,14 @@ def formatting(path):
             formatting(r'C:\\Users\\M03593\\')'''
 
 
-def main(dir_in):
-    start_time = time.time()
+def main(filePath):
+    stime = time.time()
+    #for file_name in os.listdir(filePath):
+        #if file_name.endswith(".pdf"):
+    dataProcFormat(dataReadPreProc(filePath))
+    formatting(r'C:\\Users\\M03593\\Reports\\')
     
-    for file_name in os.listdir(dir_in):
-        if file_name.endswith(".pdf"):
-            data_proc_format(data_read_preproc(dir_in+file_name))
-            formatting(dir_in)
-    
-    print(time.time() - start_time)
+    print(time.time()-stime)
     
 if __name__=="__main__":
    parser = argparse.ArgumentParser()

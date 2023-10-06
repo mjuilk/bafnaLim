@@ -1,3 +1,10 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Tue Aug 29 15:14:24 2023
+
+@author: M03593
+"""
+
 from tkinter import *
 from tkinter import filedialog
 from tkinter import ttk
@@ -31,8 +38,8 @@ frame2 = ttk.Frame(root)
 frame2.pack(expand = True)
 
 # Set the initial theme
-root.tk.call("source", "azure.tcl")
-root.tk.call("set_theme", "dark")
+#root.tk.call("source", "azure.tcl")
+#root.tk.call("set_theme", "dark")
 
 root.title("PDF to CSV Converter")
 root.minsize(640, 240)

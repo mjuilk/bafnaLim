@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 """
-Created on Fri Apr 14 15:55:27 2023
+Created on Tue Aug 29 15:24:50 2023
 
-@author: jon
+@author: M03593
 """
 
 from distutils.core import setup
-import py2exe
+
 
 setup(console = ['gui.py'], py_modules = [])
